@@ -6,15 +6,35 @@ WORKDIR /app
 COPY package*.json ./
 EXPOSE 3000
 
+# Dependencies stage
+FROM base AS deps
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+
 # Builder stage
 FROM base AS builder
 WORKDIR /app
+ENV NEXT_PUBLIC_DEPLOYMENT_PLATFORM=docker
 COPY . .
+COPY --from=deps /app/node_modules ./node_modules
 RUN npm run build
 
-# Development stage
-FROM base as dev
-ENV NODE_ENV=development
-RUN npm install 
-COPY . .
-CMD npm run dev
+# Production stage
+FROM base AS production
+WORKDIR /app
+
+ENV NODE_ENV=production
+RUN npm ci
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+USER nextjs
+
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/public ./public
+
+CMD npm start

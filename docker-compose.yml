@@ -5,10 +5,8 @@ services:
       context: web
       dockerfile: Dockerfile
     volumes:
-      - .:/app
+      - ./web/:/app
       - /app/node_modules
       - /app/.next
-    env_file:
-      - ./web/.env.local
     ports:
       - "3000:3000" 
