@@ -1,1 +1,2 @@
 -r ../apps/requirements.txt
+supervisor

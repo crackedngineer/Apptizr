@@ -3,10 +3,18 @@ services:
     image: apptizr-web
     build:
       context: web
-      dockerfile: Dockerfile
     volumes:
       - ./web/:/app
       - /app/node_modules
       - /app/.next
     ports:
-      - "3000:3000" 
+      - "3000:3000"
+  
+  app:
+    image: apptizr-app
+    build: 
+      context: src
+    ports:
+      - 8501:8501
+      - 7860:7860
+    

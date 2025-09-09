@@ -1,0 +1,26 @@
+services:
+  web:
+    image: apptizr-web
+    build:
+      context: web
+    volumes:
+      - ./web/:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - 3000:3000
+  
+  streamlit-app:
+    image: apptizr-streamlit-app
+    build: 
+      context: src
+    ports:
+      - 8501:8501
+  
+  gradio-app:
+    image: apptizr-gradio-app
+    build: 
+      context: src
+    ports:
+      - 7860:7860
+    
