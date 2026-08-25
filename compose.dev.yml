@@ -1,8 +1,8 @@
 services:
-  web:
-    image: apptizr-web
+  platform:
+    image: platform
     build:
-      context: web
+      context: ./web
     volumes:
       - ./web/:/app
       - /app/node_modules
@@ -10,10 +10,10 @@ services:
     ports:
       - "3000:3000"
   
-  app:
-    image: apptizr-app
+  apps:
+    image: apps
     build: 
-      context: src
+      context: ./src
     ports:
       - 8501:8501
       - 7860:7860
