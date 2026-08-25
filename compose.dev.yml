@@ -3,6 +3,7 @@ services:
     image: platform
     build:
       context: ./web
+      dockerfile: ./web/Dockerfile
     volumes:
       - ./web/:/app
       - /app/node_modules
@@ -14,6 +15,7 @@ services:
     image: apps
     build: 
       context: ./src
+      dockerfile: ./src/Dockerfile
     ports:
       - 8501:8501
       - 7860:7860
